@@ -19,7 +19,7 @@ router.post('/register', async (req, res) => {
     });
 
     await user.save();
-    res.send('User added successfully');
+    res.redirect('/');
 })
 
 module.exports = router;
