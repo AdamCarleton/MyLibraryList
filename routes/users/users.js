@@ -54,4 +54,13 @@ router.post('/login', async (req, res) => {
     
 });
 
+// USER LIBRARY ROUTES //
+router.get('/library', (req, res) => {
+    if (!req.session.userId) {
+        return res.redirect('/users/login');
+    }
+
+    res.send('You are logged in!');
+})
+
 module.exports = router;
