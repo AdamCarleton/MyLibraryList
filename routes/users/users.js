@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 
 // USER MODEL //
 const User = require('../../models/user');
+const Book = require('../../models/book');
 
 // REGISTER ROUTES //
 router.get('/register', (req, res) => {
@@ -64,6 +65,25 @@ router.get('/library', async (req, res) => {
 
     res.render('users/library', { user });
     // res.send('You are logged in!');
-})
+});
+
+// TEST ROUTE TO VERIFY CORRECT DATABASE RELATIONS //
+router.get('/test-book', async (req, res) => {
+    // If not logged in redirect to login page
+    if (!req.session.userId) {
+        return res.redirect('/users/login');
+    }
+
+    const book = new Book({
+        title: 'The Hobbit',
+        author: 'J.R.R. Tolkien',
+        cover: 'some image url',
+        owner: req.session.userId
+    });
+
+    await book.save();
+
+    res.send('Test book added! check mongosh for result');
+});
 
 module.exports = router;
