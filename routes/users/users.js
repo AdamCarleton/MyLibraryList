@@ -2,9 +2,10 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 
-// USER MODEL
+// USER MODEL //
 const User = require('../../models/user');
 
+// REGISTER ROUTES //
 router.get('/register', (req, res) => {
     res.render('users/register');
 });
@@ -12,16 +13,19 @@ router.get('/register', (req, res) => {
 router.post('/register', async (req, res) => {
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
+    // Set the fields for the new user to be added into the database
     const user = new User({
         email: req.body.email,
         username: req.body.username,
         password: hashedPassword
     });
 
+    // Save the new user into the database
     await user.save();
     res.redirect('/');
 });
 
+// LOGIN ROUTES //
 router.get('/login', (req, res) => {
     res.render('users/login');
 });
@@ -30,10 +34,16 @@ router.post('/login', async (req, res) => {
     const {username, password} = req.body;
     const user = await User.findOne({ username: username });
 
+    // If the user does not exist in the database
     if (!user) {
         return res.send('Invalid username or password');
     }
 
+    // Configure session for the user
+    req.session.userId = user._id;
+    console.log(req.session);
+
+    // compare the input password with the hashedpassword stored in the database
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
         res.send('Invalid username or password');
@@ -42,7 +52,6 @@ router.post('/login', async (req, res) => {
         res.send(`Welcome back ${username}!`);
     }
     
-
 });
 
 module.exports = router;
