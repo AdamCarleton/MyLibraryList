@@ -55,12 +55,15 @@ router.post('/login', async (req, res) => {
 });
 
 // USER LIBRARY ROUTES //
-router.get('/library', (req, res) => {
+router.get('/library', async (req, res) => {
     if (!req.session.userId) {
         return res.redirect('/users/login');
     }
 
-    res.send('You are logged in!');
+    const user = await User.findById(req.session.userId);
+
+    res.render('users/library', { user });
+    // res.send('You are logged in!');
 })
 
 module.exports = router;
