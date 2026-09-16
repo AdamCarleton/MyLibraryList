@@ -1,0 +1,22 @@
+<% layout('boilerplate') %>
+
+<h1>SEARCH RESULTS</h1>
+
+<% searchResult.forEach(book => { %>
+    <div>
+        <ul>
+            <li>Title: <%= book.title %></li>
+            <% if (book.author) { %>
+            <li>Author: <%= book.author.join(', ') %></li>
+            <% } %>
+            <li>Year: <%= book.year %></li>
+            <% if (book.cover) { %>
+            <li>
+                <img src="<%= coverURL + book.cover%>-M.jpg" alt="<%= book.title %>">
+            </li>
+            <% } %>
+            
+        </ul>
+        <hr />
+    </div>
+<% }); %>

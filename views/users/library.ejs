@@ -1,0 +1,17 @@
+<% layout('boilerplate') %>
+
+<h1>Welcome, <%= user.username %>!</h1>
+
+<% books.forEach(book => { %>
+    <ul>
+        <li>
+            <ul>
+                <img src="<%=book.cover%>" alt="<%= book.title %> cover" width="100px" height="160px">
+                <li><%= book.title %></li>
+                <li><%= book.author %></li>
+            </ul>
+        </li>
+        
+        
+    </ul>
+<% }) %>
