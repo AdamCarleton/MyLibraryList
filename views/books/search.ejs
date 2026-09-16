@@ -1,0 +1,9 @@
+<% layout('boilerplate') %>
+
+<h1>Search for a book</h1>
+
+<form action="/books/search" method="POST">
+    <label for="title"></label>
+    <input type="text" name="titleSearch" id="title" placeholder="Book title">
+    <button type="submit">Search</button>
+</form>

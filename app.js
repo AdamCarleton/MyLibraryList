@@ -38,8 +38,9 @@ app.use(session({
     saveUninitialized: false
 }));
 
-// ROUTER VARIABLES //
+// IMPORT ROUTES //
 const userRoutes = require('./routes/users/users');
+const bookRoutes = require('./routes/books/books');
 
 // ROUTES //
 app.get('/', (req, res) => {
@@ -48,6 +49,9 @@ app.get('/', (req, res) => {
 
 // USER REGISTRATION //
 app.use('/users', userRoutes);
+
+// BOOK ROUTES //
+app.use('/books', bookRoutes);
 
 app.listen(PORT, () => {
     console.log(`LISTENING ON PORT ${PORT}`);

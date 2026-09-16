@@ -57,13 +57,18 @@ router.post('/login', async (req, res) => {
 
 // USER LIBRARY ROUTES //
 router.get('/library', async (req, res) => {
-    if (!req.session.userId) {
+    const currentUser = req.session.userId;
+    if (!currentUser) {
         return res.redirect('/users/login');
     }
 
-    const user = await User.findById(req.session.userId);
+    const user = await User.findById(currentUser);
 
-    res.render('users/library', { user });
+    const books = await Book.find({
+        owner: currentUser
+    });
+
+    res.render('users/library', { user, books });
     // res.send('You are logged in!');
 });
 
