@@ -15,6 +15,13 @@
                 <img src="<%= coverURL + book.cover%>-M.jpg" alt="<%= book.title %>">
             </li>
             <% } %>
+            <form action="/books/add" method="POST">
+                <input type="hidden" name="title" value="<%=book.title%>">
+                <input type="hidden" name="author" value="<%=book.author%>">
+                <input type="hidden" name="year" value="<%=book.year%>">
+                <input type="hidden" name="cover" value="<%= coverURL + book.cover%>-M.jpg">
+                <button type="submit">Add Book</button>
+            </form>
             
         </ul>
         <hr />
