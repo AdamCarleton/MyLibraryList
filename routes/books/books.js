@@ -29,8 +29,8 @@ router.get('/search', (req, res) => {
 router.post('/search', async (req, res) => {
     const { titleSearch } = req.body;
 
+    // Get search results from API
     const response = await axios.get(`${searchURL}${titleSearch}`);
-    // console.log(`${searchURL}${titleSearch}`);
     const books = response.data.docs;
         
     // const searchResult = books.map(book => {
@@ -42,6 +42,7 @@ router.post('/search', async (req, res) => {
     //     };
     // });
 
+    // create a new book object for each element of the search result and push it onto the searchResult array
     const searchResult = [];
     books.forEach(book => {
         const { title, author_name, first_publish_year, cover_i } = book;
@@ -52,7 +53,7 @@ router.post('/search', async (req, res) => {
             cover:cover_i
         });
     });
-    // console.log(searchResult);
+    
     res.render('books/search-results', { searchResult, coverURL });
 });
 
@@ -64,7 +65,12 @@ router.post('/add', async (req, res) => {
         return res.redirect('/users/login');
     }
     const { title, author, year, cover } = req.body;
-    console.log(req.body);
+
+    // Checks if user already owns this book, skip adding duplicate books
+    const check = await Book.findOne({title: title, author: author, owner: currentUser});
+    if (check) {
+        return res.send('This book is already in your library');
+    }
 
     // Add book data from form (add to library button) to a new document
     const book = new Book({
