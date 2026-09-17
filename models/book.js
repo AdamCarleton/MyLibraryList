@@ -10,6 +10,7 @@ const BookSchema = new Schema({
         type: String,
         required: true
     },
+    year: Number,
     cover: String,
     owner: {
         type: Schema.Types.ObjectId,
