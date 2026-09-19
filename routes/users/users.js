@@ -50,7 +50,7 @@ router.post('/login', async (req, res) => {
         res.send('Invalid username or password');
     } 
     else {
-        res.send(`Welcome back ${username}!`);
+        res.redirect('/users/library');
     }
     
 });
