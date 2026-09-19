@@ -4,6 +4,7 @@ const ejsMate = require('ejs-mate');
 const mongoose = require('mongoose');
 const session = require('express-session');
 require('dotenv').config();
+const methodOverride = require('method-override');
 
 // DATABASE CONNECTION
 async function connectDB() {
@@ -30,6 +31,7 @@ app.set('views', path.join(__dirname, 'views'));
 // MIDDLEWARE //
 app.use(express.urlencoded({extended: true}));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(methodOverride('_method'));
 
 // Express-Session configuration
 app.use(session({
