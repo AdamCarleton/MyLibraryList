@@ -88,6 +88,32 @@ router.post('/add', async (req, res) => {
 
 });
 
+router.delete('/:id/delete', async (req, res) => {
+
+    const id = req.params.id;
+
+    // Ensures user is logged in
+    const currentUser = req.session.userId;
+    if (!currentUser) {
+        return res.redirect('/users/login');
+    }
+
+    // TESTING FOR ID MATCHES
+    // const checkUser = await Book.findOne({_id: id, owner: currentUser});
+    // console.log(`currentUser: ${currentUser}, checkUser: ${checkUser.owner}`);
+    // console.log(`Book_id: ${checkUser._id} buttonID: ${id}`)
+    
+    // FIND BOOK BY MATCHING CURRENT USER TO OWNER AND OBJECT_ID TO BOOK ID
+    const deletedBook = await Book.findOneAndDelete({_id: id, owner: currentUser});
+    
+    if (!deletedBook) {
+        return res.send("Book not found or you do not own this book.");
+    }
+
+    console.log("Deleted successfully:");
+
+    res.redirect('/users/library');
+});
 
 
 module.exports = router;
